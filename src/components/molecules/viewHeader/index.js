@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import { View, Pressable, StyleSheet, Dimensions } from "react-native";
 
-// Import navigation buttons
-// unselected:
-import BukuUnselected from "./graphics/Header/BukuUnselected";
-import EmosiUnselected from "./graphics/Header/EmosiUnselected";
-import MakanUnselected from "./graphics/Header/MakanUnselected";
-import AktivitasUnselected from "./graphics/Header/AktivitasUnselected";
-// selected:
-import BukuSelected from "./graphics/Header/BukuSelected";
-import EmosiSelected from "./graphics/Header/EmosiSelected";
-import MakanSelected from "./graphics/Header/MakanSelected";
-import AktivitasSelected from "./graphics/Header/AktivitasSelected";
+// 1. Logic
+// NA, controlled by higher component
 
-// Import calendar button
-import CalendarSelected from "./graphics/Header/CalendarSelected";
-import CalendarUnselected from "./graphics/Header/CalendarUnselected";
+// 2. Graphics
+import BukuUnselected from "./graphics/BukuUnselected";
+import EmosiUnselected from "./graphics/EmosiUnselected";
+import MakanUnselected from "./graphics/MakanUnselected";
+import AktivitasUnselected from "./graphics/AktivitasUnselected";
+import BukuSelected from "./graphics/BukuSelected";
+import EmosiSelected from "./graphics/EmosiSelected";
+import MakanSelected from "./graphics/MakanSelected";
+import AktivitasSelected from "./graphics/AktivitasSelected";
+import CalendarSelected from "./graphics/CalendarSelected";
+import CalendarUnselected from "./graphics/CalendarUnselected";
+
+// 3. Global Components
+// NA
+
+// 4. Global Styles
+import { colors, spacing } from "../../../styling";
+const { primaryDark, primaryLight, secondaryDark, secondaryLight } = colors;
+const { windowWidth, componentWidth } = spacing;
 
 const Header = ({
   calendarShown,
@@ -93,9 +100,6 @@ const SelectableButton = ({
     </Pressable>
   );
 };
-
-const windowWidth = Dimensions.get("window").width;
-const componentWidth = windowWidth * 0.85;
 
 const styles = StyleSheet.create({
   // Need to set flexDirection to row so that flexBasis can expand to fill the whole space horizontally?
