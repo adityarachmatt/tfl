@@ -1,9 +1,9 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
-import ViewTemplate from "./src/pages/view/ViewTemplate";
+import TestingScreen from "./src/TestingScreen";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,11 +27,11 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
-      <ViewTemplate />
+      <TestingScreen />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, alignItems: "center", justifyContent: "center" },
 });

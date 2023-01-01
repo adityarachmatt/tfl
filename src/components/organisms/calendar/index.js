@@ -8,15 +8,21 @@ import {
   Dimensions,
 } from "react-native";
 
-import LeftArrow from "./graphics/LeftArrow";
-import RightArrow from "./graphics/RightArrow";
-
+// 1. Logic
 import {
   getCurrentDate,
   fullDateToDD,
   getRefreshedDays,
   monthNames,
 } from "./calendar-logic";
+
+// 2. Graphics
+import LeftArrow from "./graphics/LeftArrow";
+import RightArrow from "./graphics/RightArrow";
+
+// 3. Global Styles
+import { spacing } from "../../../styling";
+const { componentWidth } = spacing;
 
 // Later: to pass down: selectedDate
 const Calendar = ({ selectedDate, setSelectedDate }) => {
@@ -180,8 +186,6 @@ const SelectedRectangle = ({ date }) => {
   );
 };
 
-const windowWidth = Dimensions.get("window").width;
-const componentWidth = windowWidth * 0.85;
 const rectangleHeight = componentWidth / 7;
 
 const styles = StyleSheet.create({

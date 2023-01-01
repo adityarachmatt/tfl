@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import Header from "./components/Header";
-import Calendar from "./components/calendar/Calendar";
+import ViewHeader from "../../components/molecules/viewHeader";
+import Calendar from "../../components/organisms/calendar";
 
-import { getCurrentDate } from "./components/calendar/calendar-logic";
+import { getCurrentDate } from "../../components/organisms/calendar/calendar-logic";
 
-const ViewTemplate = () => {
+import ViewBukuScroll from "./scenes/ViewBukuScroll";
+
+const ViewPage = () => {
   const [today] = getCurrentDate();
   const [calendarShown, setCalendarShown] = useState(true);
   const [selectedPage, setSelectedPage] = useState("buku");
   const [selectedDate, setSelectedDate] = useState(today);
   return (
     <View style={styles.container}>
-      <Header
+      <ViewHeader
         calendarShown={calendarShown}
         setCalendarShown={setCalendarShown}
         selectedPage={selectedPage}
@@ -25,8 +27,9 @@ const ViewTemplate = () => {
           setSelectedDate={setSelectedDate}
         />
       )}
+      <ViewBukuScroll />
       {console.log(
-        `\n calendarShown: ${calendarShown} \n selectedpage: ${selectedPage} \n selectedDate: ${selectedDate}`
+        `\n ViewPage Data: \n calendarShown: ${calendarShown} \n selectedpage: ${selectedPage} \n selectedDate: ${selectedDate}`
       )}
     </View>
   );
@@ -39,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ViewTemplate;
+export default ViewPage;
