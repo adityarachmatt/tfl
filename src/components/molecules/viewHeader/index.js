@@ -20,8 +20,7 @@ import CalendarUnselected from "./graphics/CalendarUnselected";
 // NA
 
 // 4. Global Styles
-import { colors, spacing } from "../../../styling";
-const { primaryDark, primaryLight, secondaryDark, secondaryLight } = colors;
+import { spacing } from "../../../styling";
 const { windowWidth, componentWidth } = spacing;
 
 const Header = ({
@@ -107,7 +106,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: windowWidth,
     justifyContent: "center",
-    borderBottomWidth: 1, // TODO: replace with shadow!
+    backgroundColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    shadowColor: "black",
   },
   rowContainer: {
     width: componentWidth,

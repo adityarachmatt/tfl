@@ -27,7 +27,7 @@ const ViewPage = () => {
           setSelectedDate={setSelectedDate}
         />
       )}
-      <ViewBukuScroll />
+      <ViewBukuScroll selectedDate={selectedDate} />
       {console.log(
         `\n ViewPage Data: \n calendarShown: ${calendarShown} \n selectedpage: ${selectedPage} \n selectedDate: ${selectedDate}`
       )}

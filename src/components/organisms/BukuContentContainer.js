@@ -21,8 +21,8 @@ const ContentContainer = ({ content, date }) => {
   } = content;
 
   //TODO
-  const openEditModal = () => {
-    console.log("openedEditModal");
+  const openEditModal = (date) => {
+    console.log(`openedEditModal(${date.toISOString()})`);
   };
 
   return (

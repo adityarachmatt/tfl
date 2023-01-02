@@ -3,14 +3,15 @@ import { View, TextInput, StyleSheet, Text } from "react-native";
 
 import CameraIcon from "./graphics/CameraIcon";
 
-import { colors } from "../../styling";
+import { colors, spacing } from "../../styling";
 const { successLight, successDark } = colors;
+const { spaceBetween_TagIconText } = spacing;
 
 const Caption = ({ isEditable, textValue, setTextValue }) => {
   return (
     <View style={styles.container}>
       <CameraIcon />
-      <View style={styles.spaceBetween} />
+      <View style={{ width: spaceBetween_TagIconText }} />
       {!isEditable && <Text style={styles.text}>{textValue}</Text>}
       {isEditable && (
         <TextInput
