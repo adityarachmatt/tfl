@@ -3,6 +3,7 @@ import { Dimensions } from "react-native";
 export const windowWidth = Dimensions.get("window").width;
 export const componentWidth = windowWidth * 0.85;
 export const componentHorizontalMargins = windowWidth * 0.075;
+export const componentBorderRadius = 10;
 
 export const spaceBetween_TagIconText = 5;
 export const spaceBetween_IconText = 5;

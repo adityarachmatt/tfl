@@ -1,28 +1,26 @@
 import React from "react";
 import { View, Text, Image, Dimensions, StyleSheet } from "react-native";
 import { colors } from "../../../styling";
-import DefaultImage from "./graphics/DefaultImage";
+import ImageView from "../../molecules/imageView";
 import TagList from "../../molecules/tagList";
 
 const DIMENSIONS = {
   WIDTH: Dimensions.get("window").width * 0.95,
 };
 
-const MOCK_TAG_DATA = {
-  1: { content: "hello", category: "green", selected: false },
-  2: { content: "hello", category: "yellow", selected: false },
-  3: { content: "hello", category: "red", selected: false },
-  4: { content: "hello", category: "green", selected: true },
-  5: { content: "hello", category: "yellow", selected: true },
-  6: { content: "hello", category: "red", selected: true },
-};
-
-const ModalCard = () => {
+const ModalCard = ({
+  title,
+  image,
+  setImage,
+  tagData,
+  setTagData,
+  otherTagRef,
+}) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Title</Text>
-      <DefaultImage />
-      <TagList data={MOCK_TAG_DATA} />
+      <Text style={styles.title}>{title}</Text>
+      <ImageView image={image} setImage={setImage} />
+      <TagList data={tagData} setData={setTagData} otherTagRef={otherTagRef} />
     </View>
   );
 };

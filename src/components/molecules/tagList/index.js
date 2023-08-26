@@ -4,9 +4,17 @@ import Tag from "../../atoms/Tag";
 import OtherTag from "../../atoms/OtherTag";
 import { spacing } from "../../../styling";
 
-// SHAPE OF "data" PROP = { key: {content, category, selected}}
+// SHAPE OF "data" PROP = { key: {content, category, selected} }
 
-const TagList = ({ data, onPressTag, onPressLainnya }) => {
+const TagList = ({ data, setData }) => {
+  const onPressTag = (key) => {
+    const { selected } = data[key];
+    console.log("Key: " + key + "\tValue: " + JSON.stringify(data[key]));
+    setData((data) => ({
+      ...data,
+      [key]: { ...data[key], selected: !selected },
+    }));
+  };
   return (
     <View style={styles.container}>
       {data &&
@@ -27,7 +35,7 @@ const TagList = ({ data, onPressTag, onPressLainnya }) => {
       <OtherTag
         contentContainerStyle={styles.tagMargins}
         content="Lainnya"
-        onPress={onPressLainnya}
+        setData={setData}
       />
     </View>
   );

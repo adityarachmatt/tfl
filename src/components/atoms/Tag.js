@@ -1,30 +1,28 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import { colors } from "../../styling";
+import ColoredCircle from "./graphics/ColoredCircle";
 
-const Tag = ({ content, category, selected, contentContainerStyle }) => {
-  const getStyle = (category) => {
-    switch (category) {
-      case "green":
-        return styles.green;
-      case "yellow":
-        return styles.yellow;
-      case "red":
-        return styles.red;
-    }
-  };
+const Tag = ({
+  content,
+  category,
+  selected,
+  onPress,
+  contentContainerStyle,
+}) => {
   return (
-    <View
+    <Pressable
       style={[
         styles.containerBase,
         selected ? styles.selectedContainer : styles.unselectedContainer,
         contentContainerStyle,
       ]}
+      onPress={onPress}
     >
-      <View style={[styles.categoryBase, getStyle(category)]} />
+      <ColoredCircle category={category} />
       <View style={styles.middleSpacing} />
       <Text style={styles.content}>{content}</Text>
-    </View>
+    </Pressable>
   );
 };
 
@@ -36,28 +34,14 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     paddingHorizontal: 12,
     paddingVertical: 8,
+    borderWidth: 1,
   },
   selectedContainer: {
     backgroundColor: colors.primary.light,
     borderColor: colors.primary.light,
   },
   unselectedContainer: {
-    borderWidth: 1,
     borderColor: colors.primary.dark,
-  },
-  categoryBase: {
-    height: 12,
-    width: 12,
-    borderRadius: 100,
-  },
-  green: {
-    backgroundColor: colors.success.default,
-  },
-  yellow: {
-    backgroundColor: colors.warning.default,
-  },
-  red: {
-    backgroundColor: colors.error.default,
   },
   middleSpacing: {
     width: 5,

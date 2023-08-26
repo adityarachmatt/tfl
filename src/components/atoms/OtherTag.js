@@ -1,14 +1,35 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
 import { colors } from "../../styling";
-import PlusIcon from "./graphics/PlusIcon";
+import CategoryPicker from "./CategoryPicker";
 
-const OtherTag = ({ content, contentContainerStyle }) => {
+const OtherTag = ({ setData, contentContainerStyle }) => {
+  const [content, setContent] = useState("");
+  const [category, setCategory] = useState("green");
+
+  const handleSubmit = (content) => {
+    setData((data) => ({
+      ...data,
+      [content]: { content, category, selected: true },
+    }));
+    setContent("");
+  };
+  const handleTextChange = (content) => {
+    setContent(content);
+  };
+
   return (
     <View style={[styles.containerBase, contentContainerStyle]}>
-      <PlusIcon />
+      <CategoryPicker category={category} setCategory={setCategory} />
       <View style={styles.middleSpacing} />
-      <Text style={styles.content}>{content}</Text>
+      <TextInput
+        style={styles.content}
+        placeholder={"Lainnya"}
+        placeholderTextColor={colors.primary.dark}
+        onSubmitEditing={(value) => handleSubmit(value.nativeEvent.text)}
+        value={content}
+        onChangeText={handleTextChange}
+      ></TextInput>
     </View>
   );
 };
@@ -23,6 +44,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     backgroundColor: colors.primary.bg,
     borderColor: colors.primary.bg,
+    borderWidth: 1,
   },
   middleSpacing: {
     width: 5,
@@ -30,7 +52,7 @@ const styles = StyleSheet.create({
   content: {
     fontSize: 13,
     fontFamily: "Inter-Medium",
-    color: colors.primary.dark,
+    color: colors.primary.default,
   },
 });
 

@@ -8,12 +8,7 @@ import Svg, {
   Stop,
 } from "react-native-svg";
 import { Dimensions, View } from "react-native";
-import { spacing } from "../../../../styling";
-
-const originalWidth = 350;
-const originalHeight = 300;
-const aspectRatio = originalWidth / originalHeight;
-const width = spacing.componentWidth;
+import { aspectRatio, width } from "../sharedLocalStyles/spacing";
 
 function SvgComponent(props) {
   return (
