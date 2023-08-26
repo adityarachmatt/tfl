@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
 import { colors } from "../../styling";
-import CategoryPicker from "./CategoryPicker";
+import ChevronDownIcon from "./graphics/ChevronDownIcon";
 
-const OtherTag = ({ setData, contentContainerStyle }) => {
+const OtherTag = ({
+  setData,
+  contentContainerStyle,
+  otherTagCategory,
+  handleOpenMenu,
+}) => {
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("green");
 
+  useEffect(() => {
+    setCategory(otherTagCategory);
+  }, [otherTagCategory]);
   const handleSubmit = (content) => {
     setData((data) => ({
       ...data,
@@ -20,7 +28,11 @@ const OtherTag = ({ setData, contentContainerStyle }) => {
 
   return (
     <View style={[styles.containerBase, contentContainerStyle]}>
-      <CategoryPicker category={category} setCategory={setCategory} />
+      <Pressable style={styles.categoryPicker} onPress={handleOpenMenu}>
+        <ColoredCircle category={category} />
+        <View style={{ width: 5 }} />
+        <ChevronDownIcon />
+      </Pressable>
       <View style={styles.middleSpacing} />
       <TextInput
         style={styles.content}
@@ -53,6 +65,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Inter-Medium",
     color: colors.primary.default,
+  },
+  categoryPicker: {
+    flexDirection: "row",
   },
 });
 

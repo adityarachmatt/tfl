@@ -6,7 +6,7 @@ import { spacing } from "../../../styling";
 
 // SHAPE OF "data" PROP = { key: {content, category, selected} }
 
-const TagList = ({ data, setData }) => {
+const TagList = ({ data, setData, otherTagCategory, handleOpenMenu }) => {
   const onPressTag = (key) => {
     const { selected } = data[key];
     console.log("Key: " + key + "\tValue: " + JSON.stringify(data[key]));
@@ -36,6 +36,8 @@ const TagList = ({ data, setData }) => {
         contentContainerStyle={styles.tagMargins}
         content="Lainnya"
         setData={setData}
+        otherTagCategory={otherTagCategory}
+        handleOpenMenu={handleOpenMenu}
       />
     </View>
   );

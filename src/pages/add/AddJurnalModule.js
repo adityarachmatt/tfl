@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ModalHeader from "../../components/molecules/modalHeader";
 import ModalCard from "../../components/organisms/modalCard";
+import ContextMenu from "../../components/molecules/contextMenu/ContextMenu";
 
 /* CONSTANTS; TO BE FETCHED FROM FIREBASE */
 const TAG_DATA1 = {
@@ -41,13 +42,39 @@ const AddJurnalModule = () => {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
+
+  // Tags List
   const [tagData1, setTagData1] = useState(TAG_DATA1);
   const [tagData2, setTagData2] = useState(TAG_DATA2);
   const [tagData3, setTagData3] = useState(TAG_DATA3);
-  const [menuVisible1, setMenuVisible1] = useState(false);
+  // Tags List > Choose Category Menu
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [tapLocation, setTapLocation] = useState({ x: 200, y: 200 });
+  const [otherTagCategory, setOtherTagCategory] = useState("green");
+  const handleOpenMenu = (event) => {
+    const { pageX, pageY } = event.nativeEvent;
+    console.log(`pageX: ${pageX} \t pageY: ${pageY}`);
+    setTapLocation({ x: pageX, y: pageY });
+    setMenuVisible(true);
+  };
+  const handleCloseMenu = () => {
+    setMenuVisible(false);
+  };
+  const onPressItem = (category) => {
+    setOtherTagCategory(category);
+    handleCloseMenu();
+    console.log(`selected ${category}`);
+  };
 
   return (
     <View style={styles.container}>
+      {menuVisible && (
+        <ContextMenu
+          tapLocation={tapLocation}
+          setOtherTagCategory={setOtherTagCategory}
+          onPressItem={onPressItem}
+        />
+      )}
       <ModalHeader
         title="Aktivitas"
         onPressHapusTags={() => console.log("pressed hapus tags")} // TODO
@@ -57,6 +84,7 @@ const AddJurnalModule = () => {
         contentContainerStyle={styles.cardScroll}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         extraHeight={200}
+        onScroll={handleCloseMenu}
       >
         <ModalCard
           title={TITLES.CARD1}
@@ -64,6 +92,8 @@ const AddJurnalModule = () => {
           setImage={setImage1}
           tagData={tagData1}
           setTagData={setTagData1}
+          otherTagCategory={otherTagCategory}
+          handleOpenMenu={handleOpenMenu}
         />
         <View style={styles.cardMargin} />
         <ModalCard
