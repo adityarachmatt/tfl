@@ -1,9 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ModalHeader from "../../components/molecules/modalHeader";
 import ModalCard from "../../components/organisms/modalCard";
-import Menu from "../../components/molecules/Menu";
 
 /* CONSTANTS; TO BE FETCHED FROM FIREBASE */
 const TAG_DATA1 = {
@@ -45,22 +44,7 @@ const AddJurnalModule = () => {
   const [tagData1, setTagData1] = useState(TAG_DATA1);
   const [tagData2, setTagData2] = useState(TAG_DATA2);
   const [tagData3, setTagData3] = useState(TAG_DATA3);
-  const otherTag1Ref = useRef(null);
-  const otherTag2Ref = useRef(null);
-  const otherTag3Ref = useRef(null);
   const [menuVisible1, setMenuVisible1] = useState(false);
-
-  const getCoordinates = (reference) => {
-    [reference].current?.measure((fx, fy, width, height, px, py) => {
-      console.log("Component width is: " + width);
-      console.log("Component height is: " + height);
-      console.log("X offset to frame: " + fx);
-      console.log("Y offset to frame: " + fy);
-      console.log("X offset to page: " + px);
-      console.log("Y offset to page: " + py);
-      return [px, py];
-    });
-  };
 
   return (
     <View style={styles.container}>
@@ -74,14 +58,12 @@ const AddJurnalModule = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         extraHeight={200}
       >
-        <Menu x={10} y={10} />
         <ModalCard
           title={TITLES.CARD1}
           image={image1}
           setImage={setImage1}
           tagData={tagData1}
           setTagData={setTagData1}
-          otherTagRef={otherTag1Ref}
         />
         <View style={styles.cardMargin} />
         <ModalCard

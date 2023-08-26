@@ -8,19 +8,12 @@ const DIMENSIONS = {
   WIDTH: Dimensions.get("window").width * 0.95,
 };
 
-const ModalCard = ({
-  title,
-  image,
-  setImage,
-  tagData,
-  setTagData,
-  otherTagRef,
-}) => {
+const ModalCard = ({ title, image, setImage, tagData, setTagData }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <ImageView image={image} setImage={setImage} />
-      <TagList data={tagData} setData={setTagData} otherTagRef={otherTagRef} />
+      <TagList data={tagData} setData={setTagData} />
     </View>
   );
 };
