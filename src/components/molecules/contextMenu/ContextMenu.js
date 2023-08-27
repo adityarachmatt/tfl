@@ -1,31 +1,79 @@
-import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import React, { useRef, useEffect } from "react";
+import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
 import ColoredCircle from "../../atoms/graphics/ColoredCircle";
 import { colors } from "../../../styling";
 
 const DEFAULT_ITEMS = [
-  { category: "green", text: "Healthy" },
-  { category: "yellow", text: "Ok" },
-  { category: "red", text: "Unhealthy" },
+  { category: "green", text: "Sehat" },
+  { category: "yellow", text: "Biasa" },
+  { category: "red", text: "Tidak Sehat" },
 ];
 
 const SPAWN_OFFSET = {
-  x: 20,
-  y: 30,
+  X: -30,
+  Y: 20,
+};
+
+const DURATION = 300;
+const ANIMATION_OFFSET = {
+  X: 10,
+  Y: 5,
 };
 
 export default ContextMenu = ({ tapLocation, items, onPressItem }) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const xAnim = useRef(new Animated.Value(0)).current;
+  const yAnim = useRef(new Animated.Value(0)).current;
+  const scaleAnim = useRef(new Animated.Value(0.85)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: DURATION,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
+  useEffect(() => {
+    Animated.timing(xAnim, {
+      toValue: ANIMATION_OFFSET.X,
+      duration: DURATION,
+      useNativeDriver: true,
+    }).start();
+  }, [xAnim]);
+
+  useEffect(() => {
+    Animated.timing(yAnim, {
+      toValue: ANIMATION_OFFSET.Y,
+      duration: DURATION,
+      useNativeDriver: true,
+    }).start();
+  }, [xAnim]);
+
+  useEffect(() => {
+    Animated.timing(scaleAnim, {
+      toValue: 1,
+      duration: DURATION,
+      useNativeDriver: true,
+    }).start();
+  }, [scaleAnim]);
+
   return (
-    <View
+    <Animated.View
       style={[
         styles.container,
         {
-          top: tapLocation.y + SPAWN_OFFSET.y,
-          left: tapLocation.x,
+          top: tapLocation.y + SPAWN_OFFSET.Y,
+          left: tapLocation.x + SPAWN_OFFSET.X,
+          opacity: fadeAnim,
+          transform: [
+            { translateX: xAnim },
+            { translateY: yAnim },
+            { scale: scaleAnim },
+          ],
         },
       ]}
     >
-      <Text>ContextMenu</Text>
       {DEFAULT_ITEMS.map((item, index) => {
         return (
           <MenuRow
@@ -37,7 +85,7 @@ export default ContextMenu = ({ tapLocation, items, onPressItem }) => {
           />
         );
       })}
-    </View>
+    </Animated.View>
   );
 };
 
@@ -80,14 +128,14 @@ const styles = StyleSheet.create({
   firstMenuRow: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
   },
   lastMenuRow: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
   middleMenuRow: {
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
   },
   text: {
     fontSize: 13,
