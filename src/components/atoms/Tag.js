@@ -26,6 +26,12 @@ const Tag = ({
   );
 };
 
+// Manual height calculation so that it doesn't expand when the ContextMenu is opened (OtherTag>onPress)
+const BORDER_WIDTH = 1;
+const PADDING_VERTICAL = 8;
+const FONT_SIZE = 13;
+const HEIGHT = BORDER_WIDTH * 2 + PADDING_VERTICAL * 2 + FONT_SIZE + 3;
+
 const styles = StyleSheet.create({
   containerBase: {
     flexDirection: "row",
@@ -33,8 +39,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 100,
     paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderWidth: 1,
+    height: HEIGHT,
+    borderWidth: BORDER_WIDTH,
   },
   selectedContainer: {
     backgroundColor: colors.primary.light,
@@ -47,7 +53,7 @@ const styles = StyleSheet.create({
     width: 5,
   },
   content: {
-    fontSize: 13,
+    fontSize: FONT_SIZE,
     fontFamily: "Inter-Medium",
     color: colors.primary.dark,
   },

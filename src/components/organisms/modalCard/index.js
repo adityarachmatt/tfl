@@ -15,7 +15,9 @@ const ModalCard = ({
   tagData,
   setTagData,
   otherTagCategory,
+  menuVisible,
   handleOpenMenu,
+  onPressItem,
 }) => {
   return (
     <View style={styles.container}>
@@ -25,7 +27,9 @@ const ModalCard = ({
         data={tagData}
         setData={setTagData}
         otherTagCategory={otherTagCategory}
+        menuVisible={menuVisible}
         handleOpenMenu={handleOpenMenu}
+        onPressItem={onPressItem}
       />
     </View>
   );

@@ -16,11 +16,6 @@ const TAG_DATA1 = {
 
 const TAG_DATA2 = {
   1: { content: "hello", category: "green", selected: false },
-  2: { content: "hello", category: "yellow", selected: false },
-  3: { content: "hello", category: "red", selected: true },
-  4: { content: "hello", category: "green", selected: true },
-  5: { content: "hello", category: "yellow", selected: true },
-  6: { content: "hello", category: "red", selected: true },
 };
 
 const TAG_DATA3 = {
@@ -44,7 +39,7 @@ const AddJurnalModule = () => {
   const [image3, setImage3] = useState(null);
 
   // Tags List
-  const [tagData1, setTagData1] = useState(TAG_DATA1);
+  const [tagData1, setTagData1] = useState(TAG_DATA2);
   const [tagData2, setTagData2] = useState(TAG_DATA2);
   const [tagData3, setTagData3] = useState(TAG_DATA3);
   // Tags List > Choose Category Menu
@@ -68,13 +63,6 @@ const AddJurnalModule = () => {
 
   return (
     <View style={styles.container}>
-      {menuVisible && (
-        <ContextMenu
-          tapLocation={tapLocation}
-          setOtherTagCategory={setOtherTagCategory}
-          onPressItem={onPressItem}
-        />
-      )}
       <ModalHeader
         title="Aktivitas"
         onPressHapusTags={() => console.log("pressed hapus tags")} // TODO
@@ -93,23 +81,9 @@ const AddJurnalModule = () => {
           tagData={tagData1}
           setTagData={setTagData1}
           otherTagCategory={otherTagCategory}
+          menuVisible={menuVisible}
           handleOpenMenu={handleOpenMenu}
-        />
-        <View style={styles.cardMargin} />
-        <ModalCard
-          title={TITLES.CARD2}
-          image={image2}
-          setImage={setImage2}
-          tagData={tagData2}
-          setTagData={setTagData2}
-        />
-        <View style={styles.cardMargin} />
-        <ModalCard
-          title={TITLES.CARD3}
-          image={image3}
-          setImage={setImage3}
-          tagData={tagData3}
-          setTagData={setTagData3}
+          onPressItem={onPressItem}
         />
         <View style={styles.cardMargin} />
       </KeyboardAwareScrollView>

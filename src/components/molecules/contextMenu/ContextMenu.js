@@ -9,11 +9,6 @@ const DEFAULT_ITEMS = [
   { category: "red", text: "Tidak Sehat" },
 ];
 
-const SPAWN_OFFSET = {
-  X: -30,
-  Y: 20,
-};
-
 const DURATION = 300;
 const ANIMATION_OFFSET = {
   X: 10,
@@ -63,14 +58,7 @@ export default ContextMenu = ({ tapLocation, items, onPressItem }) => {
       style={[
         styles.container,
         {
-          top: tapLocation.y + SPAWN_OFFSET.Y,
-          left: tapLocation.x + SPAWN_OFFSET.X,
           opacity: fadeAnim,
-          transform: [
-            { translateX: xAnim },
-            { translateY: yAnim },
-            { scale: scaleAnim },
-          ],
         },
       ]}
     >
@@ -113,10 +101,7 @@ const MenuRow = ({ item, index, length, onPressItem }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    zIndex: 10,
-  },
+  container: {},
   menuRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -126,8 +111,6 @@ const styles = StyleSheet.create({
     borderColor: colors.primary.dark,
   },
   firstMenuRow: {
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
     borderBottomWidth: 1,
   },
   lastMenuRow: {
