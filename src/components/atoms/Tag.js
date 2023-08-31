@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { colors } from "../../styling";
 import ColoredCircle from "./graphics/ColoredCircle";
+import MinusIcon from "./graphics/MinusIcon";
 
 const Tag = ({
   content,
@@ -9,6 +10,7 @@ const Tag = ({
   selected,
   onPress,
   contentContainerStyle,
+  isDeleting,
 }) => {
   return (
     <Pressable
@@ -19,7 +21,7 @@ const Tag = ({
       ]}
       onPress={onPress}
     >
-      <ColoredCircle category={category} />
+      {(isDeleting && <MinusIcon />) || <ColoredCircle category={category} />}
       <View style={styles.middleSpacing} />
       <Text style={styles.content}>{content}</Text>
     </Pressable>

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { View, StyleSheet, StatusBar } from "react-native";
 
-import AddJurnalModule from "./pages/add/AddJurnalModule";
+import ViewJurnalScroll from "./pages/view/scenes/ViewJurnalScroll";
 
 const TestingScreen = () => {
   return (
     <View style={styles.container}>
-      <AddJurnalModule />
+      <ViewJurnalScroll />
       <StatusBar barStyle={"dark-content"} />
     </View>
   );

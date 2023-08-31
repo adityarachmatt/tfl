@@ -2,37 +2,19 @@ import React from "react";
 import { View, Text, Image, Dimensions, StyleSheet } from "react-native";
 import { colors } from "../../../styling";
 import ImageView from "../../molecules/imageView";
-import TagList from "../../molecules/tagList";
+import TagListViewOnly from "../../molecules/tagList/TagListViewOnly";
+import ImageViewViewOnly from "../../molecules/imageView/ImageViewViewOnly";
 
 const DIMENSIONS = {
   WIDTH: Dimensions.get("window").width * 0.95,
 };
 
-const ModalCard = ({
-  title,
-  image,
-  setImage,
-  tagData,
-  setTagData,
-  otherTagCategory,
-  menuVisible,
-  handleOpenMenu,
-  onPressItem,
-  isDeleting,
-}) => {
+const ModalCardViewOnly = ({ title, image, tagData }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <ImageView image={image} setImage={setImage} />
-      <TagList
-        data={tagData}
-        setData={setTagData}
-        otherTagCategory={otherTagCategory}
-        menuVisible={menuVisible}
-        handleOpenMenu={handleOpenMenu}
-        onPressItem={onPressItem}
-        isDeleting={isDeleting}
-      />
+      <ImageViewViewOnly image={image} />
+      <TagListViewOnly data={tagData} />
     </View>
   );
 };
@@ -61,4 +43,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ModalCard;
+export default ModalCardViewOnly;

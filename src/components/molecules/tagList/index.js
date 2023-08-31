@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Tag from "../../atoms/Tag";
 import OtherTag from "../../atoms/OtherTag";
@@ -13,14 +13,36 @@ const TagList = ({
   menuVisible,
   handleOpenMenu,
   onPressItem,
+  isDeleting,
 }) => {
-  const onPressTag = (key) => {
+  const [forceUpdateValue, setForceUpdateValue] = useState(0); // Arbitrary value to force updates
+  const forceUpdate = () => {
+    setForceUpdateValue((prevState) => prevState + 1);
+  };
+  const selectTag = (key) => {
+    console.log(`selecting tag: ${key}`);
     const { selected } = data[key];
-    console.log("Key: " + key + "\tValue: " + JSON.stringify(data[key]));
     setData((data) => ({
       ...data,
       [key]: { ...data[key], selected: !selected },
     }));
+  };
+  const deleteTag = (key) => {
+    console.log(`deleting tag: ${key}`);
+    setData((data) => {
+      const newData = data;
+      delete newData[key];
+      console.log(`deleteTag>newData: ${JSON.stringify(newData)}`);
+      return newData;
+    });
+    forceUpdate();
+  };
+  const onPressTag = (key, isDeleting) => {
+    if (isDeleting) {
+      deleteTag(key);
+    } else {
+      selectTag(key);
+    }
   };
   return (
     <View style={styles.container}>
@@ -35,7 +57,8 @@ const TagList = ({
               category={category}
               selected={selected}
               contentContainerStyle={styles.tagMargins}
-              onPress={() => onPressTag(key)}
+              onPress={() => onPressTag(key, isDeleting)}
+              isDeleting={isDeleting}
             />
           );
         })}

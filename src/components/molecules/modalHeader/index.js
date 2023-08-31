@@ -10,15 +10,16 @@ import {
 } from "react-native";
 import HapusTags from "./graphics/HapusTags";
 import Exit from "./graphics/Exit";
+import Selesai from "./graphics/Selesai";
 import { spacing } from "../../../styling";
 
-const ModalHeader = ({ title, onPressHapusTags, onPressExit }) => {
+const ModalHeader = ({ title, onPressHapusTags, onPressExit, isDeleting }) => {
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.title}>{title}</Text>
         <Pressable onPress={onPressHapusTags}>
-          <HapusTags />
+          {(isDeleting && <Selesai />) || <HapusTags />}
         </Pressable>
       </View>
       <Pressable onPress={onPressExit}>
