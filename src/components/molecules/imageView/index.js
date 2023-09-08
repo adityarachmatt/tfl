@@ -5,12 +5,19 @@ import * as ImagePicker from "expo-image-picker";
 import { componentBorderRadius } from "../../../styling/spacing";
 import { width, aspectRatio } from "./sharedLocalStyles/spacing";
 
-const ImageView = ({ image, setImage }) => {
+// pass altImage through children
+const ImageView = ({
+  image,
+  setImage,
+  width,
+  height,
+  borderRadii,
+  children,
+}) => {
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
       quality: 1,
     });
 
@@ -22,20 +29,42 @@ const ImageView = ({ image, setImage }) => {
   return (
     <Pressable onPress={pickImageAsync}>
       {image ? (
-        <Image source={{ uri: image }} style={styles.image} />
+        <Image
+          source={{ uri: image }}
+          style={styles.getImage(width, height, borderRadii)}
+        />
       ) : (
-        <DefaultImage />
+        children || <DefaultImage />
       )}
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
-  image: {
-    width: width,
-    height: (1 / aspectRatio) * width,
-    backgroundColor: "black",
-    borderRadius: componentBorderRadius,
+  getImage(propWidth, propHeight, propBorderRadii) {
+    if (!propWidth || !propHeight) {
+      return {
+        width: width,
+        height: (1 / aspectRatio) * width,
+        backgroundColor: "black",
+        borderRadius: componentBorderRadius,
+      };
+    }
+    let returnVal = {
+      width: propWidth,
+      height: propHeight,
+      backgroundColor: "black",
+    };
+    if (propBorderRadii) {
+      returnVal = {
+        ...returnVal,
+        borderTopLeftRadius: propBorderRadii.TOP_LEFT,
+        borderTopRightRadius: propBorderRadii.TOP_RIGHT,
+        borderBottomLeftRadius: propBorderRadii.BOTTOM_LEFT,
+        borderBottomRightRadius: propBorderRadii.BOTTOM_RIGHT,
+      };
+    }
+    return returnVal;
   },
 });
 

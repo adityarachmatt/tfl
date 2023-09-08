@@ -1,4 +1,4 @@
-import { FlatList, View, Text } from "react-native";
+import { FlatList, View, Text, StyleSheet } from "react-native";
 import JurnalContentContainer from "../../../components/organisms/JurnalContentContainer";
 
 /* TO BE FETCHED */
@@ -14,7 +14,6 @@ export default ViewJurnalScroll = () => {
   const renderItem = ({ item }) => {
     return (
       <View>
-        <Text>{`entry_id: ${item.entry_id} \tdate: ${item.date}`}</Text>
         <JurnalContentContainer />
       </View>
     );
@@ -24,6 +23,9 @@ export default ViewJurnalScroll = () => {
       data={DATA}
       renderItem={renderItem}
       keyExtractor={(item, index) => `${item.entry_id}${index}`}
+      showsVerticalScrollIndicator={false}
     />
   );
 };
+
+const styles = StyleSheet.create({});

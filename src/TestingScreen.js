@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { View, StyleSheet, StatusBar } from "react-native";
-
-import ViewJurnalScroll from "./pages/view/scenes/ViewJurnalScroll";
+import { View, StyleSheet, StatusBar, SafeAreaView } from "react-native";
+import EditBukuImageView from "./components/molecules/editBukuImageView";
 
 const TestingScreen = () => {
   return (
-    <View style={styles.container}>
-      <ViewJurnalScroll />
+    <SafeAreaView style={styles.container}>
+      <EditBukuImageView />
       <StatusBar barStyle={"dark-content"} />
-    </View>
+    </SafeAreaView>
   );
 };
 

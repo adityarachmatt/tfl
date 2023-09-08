@@ -1,4 +1,4 @@
-import { View, FlatList } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
 import ModalCardViewOnly from "./modalCard/ModalCardViewOnly";
 import ContentHeader from "../molecules/contentHeader";
 import { getStandardizedDate } from "./calendar/calendar-logic";
@@ -12,8 +12,7 @@ const TAG_DATA = {
   5: { content: "Avocado", category: "green", selected: false },
 };
 
-const IMAGE =
-  "file:///var/mobile/Containers/Data/Application/901C0C15-AC12-4537-AE6A-94D18825ADD8/Library/Caches/ExponentExperienceData/%2540anonymous%252Ftfl-aa710b44-35ce-4a9f-aa13-c550f5399161/ImagePicker/0ED17CEC-CD53-4111-B34B-FAD2ADEE35D8.jpg";
+const IMAGE = "";
 
 const DATA = [
   { id: 1, title: "Jurnal Card", tagData: TAG_DATA, image: IMAGE },
@@ -25,10 +24,14 @@ export default JurnalContentContainer = ({ entry_id, date }) => {
   console.log(`ViewJurnalDay>date: ${date}`);
   const renderItem = ({ item }) => {
     const { title, tagData, image } = item;
-    return <ModalCardViewOnly title={title} tagData={tagData} image={image} />;
+    return (
+      <View style={styles.modalCardContainer}>
+        <ModalCardViewOnly title={title} tagData={tagData} image={image} />
+      </View>
+    );
   };
   return (
-    <View>
+    <View style={styles.container}>
       <ContentHeader
         date={getStandardizedDate(new Date())}
         openEditModal={() => console.log("opening jurnal edit modal")}
@@ -37,3 +40,15 @@ export default JurnalContentContainer = ({ entry_id, date }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: 40,
+  },
+  modalCardContainer: {
+    width: "100%",
+    paddingTop: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

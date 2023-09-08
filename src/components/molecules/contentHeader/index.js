@@ -18,7 +18,7 @@ const { windowWidth, componentWidth, spaceBetween_TagIconText } = spacing;
 
 const ContentHeader = ({ date, openEditModal }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, styles.shadow]}>
       <View style={styles.subContainer}>
         <Date date={date} />
         <EditButton openEditModal={openEditModal} date={date} />
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     alignItems: "center",
     paddingVertical: 10,
+    backgroundColor: "white",
   },
   subContainer: {
     flexDirection: "row",
@@ -73,6 +74,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: primaryDark,
     fontFamily: "Inter-Medium",
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 });
 
