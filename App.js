@@ -1,9 +1,8 @@
 import { useCallback, useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-
-import TestingScreen from "./src/TestingScreen";
+import BottomTabBar from "./src/components/molecules/BottomTabBar";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -26,12 +25,16 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      <TestingScreen />
-    </View>
+    <KeyboardAvoidingView
+      style={styles.container}
+      onLayout={onLayoutRootView}
+      behavior="padding"
+    >
+      <BottomTabBar />
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  container: { flex: 1, justifyContent: "center", alignItems: "center" },
 });

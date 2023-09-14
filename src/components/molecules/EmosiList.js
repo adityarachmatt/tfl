@@ -19,19 +19,19 @@ const Emosi = ({ emotion }) => {
     switch (emosi) {
       case "happy":
         console.log("Pressed happy");
-        return;
+        break;
       case "blushing":
         console.log("Pressed blushing");
-        return;
+        break;
       case "neutral":
         console.log("Pressed neutral");
-        return;
+        break;
       case "sad":
         console.log("Pressed sad");
-        return;
+        break;
       case "crying":
         console.log("Pressed crying");
-        return;
+        break;
     }
   };
   return (

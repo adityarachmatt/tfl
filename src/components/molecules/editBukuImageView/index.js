@@ -1,23 +1,20 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
 import AltImage from "./graphics/AltImage";
 import HeartToggle from "../../atoms/HeartToggle";
-import LockToggle from "../../atoms/LockToggle";
+import ExitIcon from "../../atoms/graphics/ExitIcon";
 import ImageView from "../imageView";
+import { componentHorizontalMargins } from "../../../styling/spacing";
 
-export default EditBukuImageView = () => {
+export default EditBukuImageView = ({ image, setImage }) => {
   const [heartSelected, setHeartSelected] = useState(false);
-  const [lockSelected, setLockSelected] = useState(false);
-  const [image, setImage] = useState("");
   const pressHeart = () => {
     //TODO FIREBASE
     setHeartSelected((prevState) => !prevState);
     console.log("Pressed Heart");
   };
-  const pressLock = () => {
-    //TODO FIREBASE
-    setLockSelected((prevState) => !prevState);
-    console.log("Pressed Lock");
+  const pressExit = () => {
+    console.log("Pressed Exit");
   };
   return (
     <View>
@@ -35,9 +32,9 @@ export default EditBukuImageView = () => {
       <View style={styles.heartContainer}>
         <HeartToggle isSelected={heartSelected} onPress={pressHeart} />
       </View>
-      <View style={styles.lockContainer}>
-        <LockToggle isSelected={lockSelected} onPress={pressLock} />
-      </View>
+      <Pressable style={styles.lockContainer} onPress={pressExit}>
+        <ExitIcon />
+      </Pressable>
     </View>
   );
 };
@@ -45,7 +42,7 @@ export default EditBukuImageView = () => {
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
 const DIMENSIONS = {
-  MARGIN: 20,
+  PADDING: componentHorizontalMargins,
   WIDTH: WINDOW_WIDTH,
   HEIGHT: (WINDOW_WIDTH * 277) / 415,
 };
@@ -60,12 +57,12 @@ const BORDER_RADII = {
 const styles = StyleSheet.create({
   heartContainer: {
     position: "absolute",
-    top: DIMENSIONS.MARGIN,
-    left: DIMENSIONS.MARGIN,
+    top: DIMENSIONS.PADDING + 20,
+    left: DIMENSIONS.PADDING,
   },
   lockContainer: {
     position: "absolute",
-    top: DIMENSIONS.MARGIN,
-    right: DIMENSIONS.MARGIN,
+    top: DIMENSIONS.PADDING + 20,
+    right: DIMENSIONS.PADDING,
   },
 });

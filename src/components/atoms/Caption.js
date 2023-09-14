@@ -17,7 +17,7 @@ const Caption = ({ isEditable, textValue, setTextValue }) => {
         <TextInput
           style={styles.text}
           placeholderTextColor={successDark}
-          placeholder="Type a caption..."
+          placeholder="Caption..."
           value={textValue}
           onChangeText={(t) => setTextValue(t)}
         ></TextInput>
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 100,
     borderWidth: 1,
+    alignSelf: "flex-start",
   },
   spaceBetween: {
     width: 3,

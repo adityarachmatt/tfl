@@ -70,7 +70,7 @@ const ViewEmosiScroll = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    paddingTop: 100,
     alignItems: "center",
     justifyContent: "center",
   },

@@ -21,7 +21,6 @@ const DATA = [
 ];
 
 export default JurnalContentContainer = ({ entry_id, date }) => {
-  console.log(`ViewJurnalDay>date: ${date}`);
   const renderItem = ({ item }) => {
     const { title, tagData, image } = item;
     return (
