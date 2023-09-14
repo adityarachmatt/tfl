@@ -14,11 +14,11 @@ import EditButtonImage from "./graphics/EditButtonImage";
 // 4. Styles
 import { colors, spacing } from "../../../styling";
 const { primaryDark, primaryLight } = colors;
-const { windowWidth, componentWidth } = spacing;
+const { windowWidth, componentWidth, spaceBetween_TagIconText } = spacing;
 
 const ContentHeader = ({ date, openEditModal }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, styles.shadow]}>
       <View style={styles.subContainer}>
         <Date date={date} />
         <EditButton openEditModal={openEditModal} date={date} />
@@ -31,7 +31,7 @@ const Date = ({ date }) => {
   return (
     <View style={styles.dateContainer}>
       <CalendarIcon />
-      <View style={styles.dateSpacing} />
+      <View style={{ width: spaceBetween_TagIconText }} />
       <Text style={styles.dateText}>{convertDate(date)}</Text>
     </View>
   );
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     alignItems: "center",
     paddingVertical: 10,
+    backgroundColor: "white",
   },
   subContainer: {
     flexDirection: "row",
@@ -74,8 +75,16 @@ const styles = StyleSheet.create({
     color: primaryDark,
     fontFamily: "Inter-Medium",
   },
-  dateSpacing: {
-    width: 3,
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 });
 

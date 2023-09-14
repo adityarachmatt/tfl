@@ -67,3 +67,12 @@ export const monthNames = [
   "November",
   "December",
 ];
+
+// NEW CHANGES
+// Standardized time to "T08:00:00.000Z"
+export const getStandardizedDate = (dateObject) => {
+  const standardizedDate = new Date(
+    dateObject.toISOString().substring(0, 10) + "T08:00:00.000Z"
+  );
+  return standardizedDate;
+};

@@ -1,0 +1,27 @@
+import * as React from "react";
+import Svg, { G, Path, Defs, ClipPath } from "react-native-svg";
+
+function MedicalOutlineIcon(props) {
+  return (
+    <Svg
+      width={36}
+      height={36}
+      viewBox="0 0 36 36"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <G clipPath="url(#clip0_349_3756)" fill="#2E3A59">
+        <Path d="M30 9h-6V6c0-1.65-1.35-3-3-3h-6c-1.65 0-3 1.35-3 3v3H6c-1.65 0-3 1.35-3 3v18c0 1.65 1.35 3 3 3h24c1.65 0 3-1.35 3-3V12c0-1.65-1.35-3-3-3zM15 6h6v3h-6V6zm15 24H6V12h24v18z" />
+        <Path d="M19.5 15h-3v4.5H12v3h4.5V27h3v-4.5H24v-3h-4.5V15z" />
+      </G>
+      <Defs>
+        <ClipPath id="clip0_349_3756">
+          <Path fill="#fff" d="M0 0H36V36H0z" />
+        </ClipPath>
+      </Defs>
+    </Svg>
+  );
+}
+
+export default MedicalOutlineIcon;

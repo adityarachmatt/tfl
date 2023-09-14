@@ -99,14 +99,16 @@ const Grid = ({ days, selectedDate, setSelectedDate }) => {
   return (
     <View style={styles.grid}>
       <WeekdayHeaders />
-      {days.map((week, index) => (
-        <Row
-          weekData={week}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          key={`${week} ${index}`}
-        />
-      ))}
+      {days.map((week, index) => {
+        return (
+          <Row
+            weekData={week}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            key={`${index}`}
+          />
+        );
+      })}
     </View>
   );
 };

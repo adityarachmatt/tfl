@@ -1,7 +1,7 @@
-import React from "react";
-import { ScrollView } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { FlatList } from "react-native";
 
-import ContentContainer from "../../../components/organisms/ContentContainer";
+import BukuContentContainer from "../../../components/organisms/BukuContentContainer";
 
 const content = {
   captionText: "Santai di pantai",
@@ -13,17 +13,36 @@ const content = {
   answer3: "Kenapa langit biru??",
 };
 
-const date1 = new Date();
-const date2 = new Date("Dec 30 2022");
-const date3 = new Date("Dec 29 2022");
+const dataFactory = (length, selectedDate) => {
+  const date = new Date(selectedDate);
+  const output = [];
+  for (let i = 0; i < length; i++) {
+    output.push({ content: content, date: new Date(date) });
+    date.setDate(date.getDate() + 1);
+  }
+  return output;
+};
 
-const ViewBukuScroll = () => {
+const renderItem = ({ item }) => (
+  <BukuContentContainer content={item.content} date={item.date} />
+);
+
+const ViewBukuScroll = ({ selectedDate }) => {
+  const DATA = dataFactory(4, selectedDate);
+
+  const flatListRef = useRef();
+
+  useEffect(() => {
+    flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
+  }, [selectedDate]);
+
   return (
-    <ScrollView>
-      <ContentContainer content={content} date={date1} />
-      <ContentContainer content={content} date={date2} />
-      <ContentContainer content={content} date={date2} />
-    </ScrollView>
+    <FlatList
+      ref={flatListRef}
+      data={DATA}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.date.toISOString()}
+    />
   );
 };
 
