@@ -4,7 +4,6 @@ import AddJurnalModule from "./AddJurnalModule";
 export default AddJurnalAktivitasPage = () => {
   return (
     <View>
-      <Text>AddJurnalAktivitasPage</Text>
       <AddJurnalModule />
     </View>
   );

@@ -25,38 +25,41 @@ const ICONS_DICTIONARY = {
   ProfileOutline: <ProfileOutlineIcon />,
 };
 
-export default BottomTabBar = () => {
-  const [selectedPage, setSelectedPage] = useState("Home");
+export default BottomTabBar = ({
+  selectedPage,
+  handleTabPress,
+  addSelected,
+}) => {
   return (
     <View style={[styles.container, styles.shadow]}>
       <IconContainer
         filledKey="HomeFilled"
         outlineKey="HomeOutline"
-        onPress={() => setSelectedPage("Home")}
+        onPress={() => handleTabPress("Home")}
         isFilled={selectedPage === "Home"}
       />
       <IconContainer
         filledKey="MedicalFilled"
         outlineKey="MedicalOutline"
-        onPress={() => setSelectedPage("Medical")}
+        onPress={() => handleTabPress("Medical")}
         isFilled={selectedPage === "Medical"}
       />
       <IconContainer
         filledKey="AddFilled"
         outlineKey="AddOutline"
-        onPress={() => setSelectedPage("Add")}
-        isFilled={selectedPage === "Add"}
+        onPress={() => handleTabPress("Add")}
+        isFilled={addSelected}
       />
       <IconContainer
         filledKey="DataFilled"
         outlineKey="DataOutline"
-        onPress={() => setSelectedPage("Data")}
+        onPress={() => handleTabPress("Data")}
         isFilled={selectedPage === "Data"}
       />
       <IconContainer
         filledKey="ProfileFilled"
         outlineKey="ProfileOutline"
-        onPress={() => setSelectedPage("Profile")}
+        onPress={() => handleTabPress("Profile")}
         isFilled={selectedPage === "Profile"}
       />
     </View>
@@ -77,12 +80,13 @@ const DIMENSIONS = {
   WIDTH: WINDOW_WIDTH,
   HEIGHT: WINDOW_WIDTH / 5,
   ICON_CONTAINER_WIDTH: WINDOW_WIDTH / 5,
+  OFFSET: 20,
 };
 
 const styles = StyleSheet.create({
   container: {
     width: DIMENSIONS.WIDTH,
-    height: DIMENSIONS.HEIGHT,
+    height: DIMENSIONS.HEIGHT + DIMENSIONS.OFFSET,
     backgroundColor: grayscale.offWhite,
     flexDirection: "row",
   },

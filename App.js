@@ -2,11 +2,12 @@ import { useCallback, useState } from "react";
 import { Text, View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import BottomTabBar from "./src/components/molecules/BottomTabBar";
+import LandingPage from "./src/pages/LandingPage";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  // FONTS
   const [fontsLoaded] = useFonts({
     "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
     "Inter-Bold": require("./assets/fonts/Inter-Bold.otf"),
@@ -30,7 +31,7 @@ export default function App() {
       onLayout={onLayoutRootView}
       behavior="padding"
     >
-      <BottomTabBar />
+      <LandingPage />
     </KeyboardAvoidingView>
   );
 }
