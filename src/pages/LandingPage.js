@@ -1,5 +1,12 @@
-import { useState } from "react";
-import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
+import { useState, useRef, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Dimensions,
+  Animated,
+} from "react-native";
 
 // TAB ICONS
 import AddFilledIcon from "../components/atoms/graphics/bottomTabBar/AddFilledIcon";
@@ -33,8 +40,16 @@ import EditBukuModal from "./edit/EditBukuModal";
 
 import DataPage from "./data/DataPage";
 import ProfilePage from "./profile/ProfilePage";
+
+// NAVIGATION
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from "@react-navigation/native";
+
+// PLUGINS
+import { BlurView } from "expo-blur";
 
 const TAB_KEYS = {
   HOME: "Home",
@@ -51,11 +66,34 @@ const ADD_KEYS = {
   AKTIVITAS: "Aktivitas",
 };
 
+// STYLING
+const WINDOW_WIDTH = Dimensions.get("window").width;
+const WINDOW_HEIGHT = Dimensions.get("window").height;
+
+const DIMENSIONS = {
+  TAB_BAR: {
+    HEIGHT: WINDOW_WIDTH / 5,
+    WIDTH: WINDOW_WIDTH,
+  },
+  ADD_MENU_BUTTON: {
+    BOTTOM_MARGIN: WINDOW_WIDTH / 5 - 36 - 11,
+  },
+  ADD_MENU: {
+    WIDTH: 150,
+    BOTTOM_MARGIN: 20,
+    RIGHT_MARGIN: WINDOW_WIDTH / 2 - 75,
+    ROW_HEIGHT: 50,
+    BORDER_RADIUS: 10,
+  },
+};
+
 const Tab = createBottomTabNavigator();
 
 export default LandingPage = () => {
   const [showAddMenu, setShowAddMenu] = useState(false);
+  const navigationRef = useNavigationContainerRef();
   const { HOME, MEDICAL, ADD, DATA, PROFILE } = TAB_KEYS;
+  const { BUKU, EMOSI, MAKAN, AKTIVITAS } = ADD_KEYS;
   const getAddIcon = () =>
     showAddMenu ? <AddFilledIcon /> : <AddOutlineIcon />;
   const getIcon = (name, focused) => {
@@ -102,39 +140,121 @@ export default LandingPage = () => {
         return;
     }
   };
+  const handleAddPress = (key) => {
+    navigationRef.navigate(key);
+    setShowAddMenu(false);
+  };
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused }) => {
             return getIcon(route.name, focused);
           },
           tabBarShowLabel: false,
+          tabBarStyle: { height: DIMENSIONS.TAB_BAR.HEIGHT },
         })}
       >
-        <Tab.Screen
-          name={HOME}
-          component={ViewPage}
-          options={{ headerShown: false }}
-        />
-        <Tab.Screen name={MEDICAL} component={MedicalPage} />
-        <Tab.Screen name={ADD} component={MedicalPage} />
-        <Tab.Screen name={DATA} component={DataPage} />
-        <Tab.Screen name={PROFILE} component={ProfilePage} />
+        <Tab.Group>
+          <Tab.Screen
+            name={HOME}
+            component={ViewPage}
+            options={{ headerShown: false }}
+          />
+          <Tab.Screen name={MEDICAL} component={MedicalPage} />
+          <Tab.Screen
+            name={ADD}
+            component={MedicalPage}
+            options={{
+              tabBarButton: (props) => (
+                <Pressable
+                  onPress={() => setShowAddMenu((s) => !s)}
+                  style={styles.addMenuTabBarContainer}
+                >
+                  {getAddIcon()}
+                </Pressable>
+              ),
+            }}
+          />
+          <Tab.Screen name={DATA} component={DataPage} />
+          <Tab.Screen name={PROFILE} component={ProfilePage} />
+        </Tab.Group>
+        <Tab.Group
+          screenOptions={{
+            presentation: "modal",
+            tabBarButton: (props) => <View />,
+            headerShown: false,
+          }}
+        >
+          <Tab.Screen name={BUKU} component={AddBukuSequence} />
+          <Tab.Screen name={EMOSI} component={AddEmosiPage} />
+          <Tab.Screen name={MAKAN} component={AddJurnalMakanPage} />
+          <Tab.Screen name={AKTIVITAS} component={AddJurnalAktivitasPage} />
+        </Tab.Group>
       </Tab.Navigator>
+      {showAddMenu && (
+        <>
+          <BlurView
+            intensity={5}
+            style={{
+              height: WINDOW_HEIGHT,
+              width: WINDOW_WIDTH,
+              position: "absolute",
+            }}
+          >
+            <Pressable />
+          </BlurView>
+          <View style={styles.addMenuContainer}>
+            <AddMenu handleAddPress={handleAddPress} />
+          </View>
+        </>
+      )}
     </NavigationContainer>
   );
 };
 
 const AddMenu = ({ handleAddPress }) => {
   const { BUKU, EMOSI, MAKAN, AKTIVITAS } = ADD_KEYS;
+  const DURATION = 300;
+  const fadeAnim = useRef(new Animated.Value(0.8)).current;
+  const scaleAnim = useRef(new Animated.Value(0)).current;
+  const yAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: DURATION,
+      useNativeDriver: true,
+    }).start();
+  }, [scaleAnim]);
+  useEffect(() => {
+    Animated.timing(scaleAnim, {
+      toValue: 1,
+      duration: DURATION,
+      useNativeDriver: true,
+    }).start();
+  }, [scaleAnim]);
+  useEffect(() => {
+    Animated.timing(yAnim, {
+      toValue: -100,
+      duration: DURATION,
+      useNativeDriver: true,
+    }).start();
+  }, [yAnim]);
   return (
-    <View style={styles.addMenu}>
+    <Animated.View
+      style={[
+        styles.addMenu,
+        {
+          opacity: fadeAnim,
+          transform: [{ scale: scaleAnim }, { translateY: yAnim }],
+        },
+      ]}
+    >
       <AddRow item={BUKU} handlePress={() => handleAddPress(BUKU)} />
       <AddRow item={EMOSI} handlePress={() => handleAddPress(EMOSI)} />
       <AddRow item={MAKAN} handlePress={() => handleAddPress(MAKAN)} />
       <AddRow item={AKTIVITAS} handlePress={() => handleAddPress(AKTIVITAS)} />
-    </View>
+    </Animated.View>
   );
 };
 
@@ -166,7 +286,7 @@ const AddRow = ({ item, handlePress }) => {
   };
   return (
     <Pressable
-      style={[styles.addRow, getAdditionalStyle(), styles.addShadow]}
+      style={[styles.addRow, getAdditionalStyle()]}
       onPress={handlePress}
     >
       <View style={styles.addIconContainer}>{getIcon()}</View>
@@ -175,23 +295,17 @@ const AddRow = ({ item, handlePress }) => {
   );
 };
 
-const WINDOW_WIDTH = Dimensions.get("window").width;
-
-const DIMENSIONS = {
-  TAB_BAR_HEIGHT: WINDOW_WIDTH / 5 + 20,
-  ADD_MENU: {
-    WIDTH: 150,
-    BOTTOM_MARGIN: 20,
-    RIGHT_MARGIN: WINDOW_WIDTH / 2 - 75,
-    ROW_HEIGHT: 50,
-    BORDER_RADIUS: 10,
-  },
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+  },
+  addMenuTabBarContainer: {
+    height: DIMENSIONS.TAB_BAR.HEIGHT,
+    width: DIMENSIONS.TAB_BAR.WIDTH / 5,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    paddingBottom: DIMENSIONS.ADD_MENU_BUTTON.BOTTOM_MARGIN,
   },
   addText: {
     fontWeight: "bold",
@@ -206,12 +320,15 @@ const styles = StyleSheet.create({
   addTopRow: {
     borderTopLeftRadius: DIMENSIONS.ADD_MENU.BORDER_RADIUS,
     borderTopRightRadius: DIMENSIONS.ADD_MENU.BORDER_RADIUS,
+    // borderTopWidth: 1,
   },
   addRow: {
     width: DIMENSIONS.ADD_MENU.WIDTH,
     height: DIMENSIONS.ADD_MENU.ROW_HEIGHT,
     backgroundColor: colors.grayscale.offWhite,
     borderBottomWidth: 1,
+    // borderLeftWidth: 1,
+    // borderRightWidth: 1,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -225,7 +342,7 @@ const styles = StyleSheet.create({
   },
   addMenuContainer: {
     position: "absolute",
-    bottom: DIMENSIONS.TAB_BAR_HEIGHT + DIMENSIONS.ADD_MENU.BOTTOM_MARGIN,
+    bottom: DIMENSIONS.TAB_BAR.HEIGHT + DIMENSIONS.ADD_MENU.BOTTOM_MARGIN - 100,
     right: DIMENSIONS.ADD_MENU.RIGHT_MARGIN,
   },
   addShadow: {

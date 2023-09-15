@@ -90,11 +90,6 @@ const AddJurnalModule = () => {
         extraHeight={200}
         onScroll={handleCloseMenu}
       >
-        <ModalCardViewOnly
-          title={"View Only"}
-          image={image1}
-          tagData={tagData1}
-        />
         <View style={styles.cardMargin} />
         <ModalCard
           title={TITLES.CARD1}
