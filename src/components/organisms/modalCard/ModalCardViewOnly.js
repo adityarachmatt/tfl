@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontFamily: "Inter-Bold",
+    fontWeight: "bold",
     padding: 12,
   },
 });

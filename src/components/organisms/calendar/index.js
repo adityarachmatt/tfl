@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     width: componentWidth,
   },
   headerGroupTitle: {
-    fontFamily: "Inter-Bold",
+    fontWeight: "bold",
     fontSize: 20,
   },
   arrowContainer: {
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   weekdayHeaderText: {
-    fontFamily: "Inter-Bold",
+    fontWeight: "bold",
   },
 
   grid: {
@@ -248,16 +248,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderColor: "lightgray",
   },
-  baseRectangleText: {
-    fontFamily: "Inter-Light",
-  },
+  baseRectangleText: {},
   unselectedRectangle: {},
   selectedRectangle: {
     backgroundColor: "#2A00A2",
   },
   selectedRectangleText: {
     color: "white",
-    fontFamily: "Inter-Bold",
+    fontWeight: "bold",
   },
 });
 
