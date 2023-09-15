@@ -1,5 +1,12 @@
-import { useState } from "react";
-import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
+import { useState, useRef, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Dimensions,
+  Animated,
+} from "react-native";
 
 // TAB ICONS
 import AddFilledIcon from "../components/atoms/graphics/bottomTabBar/AddFilledIcon";
@@ -42,7 +49,7 @@ import {
 } from "@react-navigation/native";
 
 // PLUGINS
-import { BlurView } from "@react-native-community/blur";
+import { BlurView } from "expo-blur";
 
 const TAB_KEYS = {
   HOME: "Home",
@@ -61,11 +68,15 @@ const ADD_KEYS = {
 
 // STYLING
 const WINDOW_WIDTH = Dimensions.get("window").width;
+const WINDOW_HEIGHT = Dimensions.get("window").height;
 
 const DIMENSIONS = {
   TAB_BAR: {
     HEIGHT: WINDOW_WIDTH / 5,
     WIDTH: WINDOW_WIDTH,
+  },
+  ADD_MENU_BUTTON: {
+    BOTTOM_MARGIN: WINDOW_WIDTH / 5 - 36 - 11,
   },
   ADD_MENU: {
     WIDTH: 150,
@@ -184,11 +195,15 @@ export default LandingPage = () => {
       {showAddMenu && (
         <>
           <BlurView
-            style={styles.absolute}
-            blurType="light"
-            blurAmount={10}
-            reducedTransparencyFallbackColor="white"
-          />
+            intensity={5}
+            style={{
+              height: WINDOW_HEIGHT,
+              width: WINDOW_WIDTH,
+              position: "absolute",
+            }}
+          >
+            <Pressable />
+          </BlurView>
           <View style={styles.addMenuContainer}>
             <AddMenu handleAddPress={handleAddPress} />
           </View>
@@ -200,13 +215,46 @@ export default LandingPage = () => {
 
 const AddMenu = ({ handleAddPress }) => {
   const { BUKU, EMOSI, MAKAN, AKTIVITAS } = ADD_KEYS;
+  const DURATION = 300;
+  const fadeAnim = useRef(new Animated.Value(0.8)).current;
+  const scaleAnim = useRef(new Animated.Value(0)).current;
+  const yAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: DURATION,
+      useNativeDriver: true,
+    }).start();
+  }, [scaleAnim]);
+  useEffect(() => {
+    Animated.timing(scaleAnim, {
+      toValue: 1,
+      duration: DURATION,
+      useNativeDriver: true,
+    }).start();
+  }, [scaleAnim]);
+  useEffect(() => {
+    Animated.timing(yAnim, {
+      toValue: -100,
+      duration: DURATION,
+      useNativeDriver: true,
+    }).start();
+  }, [yAnim]);
   return (
-    <View style={styles.addMenu}>
+    <Animated.View
+      style={[
+        styles.addMenu,
+        {
+          opacity: fadeAnim,
+          transform: [{ scale: scaleAnim }, { translateY: yAnim }],
+        },
+      ]}
+    >
       <AddRow item={BUKU} handlePress={() => handleAddPress(BUKU)} />
       <AddRow item={EMOSI} handlePress={() => handleAddPress(EMOSI)} />
       <AddRow item={MAKAN} handlePress={() => handleAddPress(MAKAN)} />
       <AddRow item={AKTIVITAS} handlePress={() => handleAddPress(AKTIVITAS)} />
-    </View>
+    </Animated.View>
   );
 };
 
@@ -238,7 +286,7 @@ const AddRow = ({ item, handlePress }) => {
   };
   return (
     <Pressable
-      style={[styles.addRow, getAdditionalStyle(), styles.addShadow]}
+      style={[styles.addRow, getAdditionalStyle()]}
       onPress={handlePress}
     >
       <View style={styles.addIconContainer}>{getIcon()}</View>
@@ -256,7 +304,8 @@ const styles = StyleSheet.create({
     height: DIMENSIONS.TAB_BAR.HEIGHT,
     width: DIMENSIONS.TAB_BAR.WIDTH / 5,
     alignItems: "center",
-    paddingTop: 10,
+    justifyContent: "flex-end",
+    paddingBottom: DIMENSIONS.ADD_MENU_BUTTON.BOTTOM_MARGIN,
   },
   addText: {
     fontWeight: "bold",
@@ -271,12 +320,15 @@ const styles = StyleSheet.create({
   addTopRow: {
     borderTopLeftRadius: DIMENSIONS.ADD_MENU.BORDER_RADIUS,
     borderTopRightRadius: DIMENSIONS.ADD_MENU.BORDER_RADIUS,
+    // borderTopWidth: 1,
   },
   addRow: {
     width: DIMENSIONS.ADD_MENU.WIDTH,
     height: DIMENSIONS.ADD_MENU.ROW_HEIGHT,
     backgroundColor: colors.grayscale.offWhite,
     borderBottomWidth: 1,
+    // borderLeftWidth: 1,
+    // borderRightWidth: 1,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -290,7 +342,7 @@ const styles = StyleSheet.create({
   },
   addMenuContainer: {
     position: "absolute",
-    bottom: DIMENSIONS.TAB_BAR.HEIGHT + DIMENSIONS.ADD_MENU.BOTTOM_MARGIN,
+    bottom: DIMENSIONS.TAB_BAR.HEIGHT + DIMENSIONS.ADD_MENU.BOTTOM_MARGIN - 100,
     right: DIMENSIONS.ADD_MENU.RIGHT_MARGIN,
   },
   addShadow: {
