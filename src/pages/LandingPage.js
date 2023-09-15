@@ -6,6 +6,7 @@ import {
   Pressable,
   Dimensions,
   Animated,
+  TouchableOpacity,
 } from "react-native";
 
 // TAB ICONS
@@ -195,7 +196,7 @@ export default LandingPage = () => {
       {showAddMenu && (
         <>
           <BlurView
-            intensity={5}
+            intensity={8}
             style={{
               height: WINDOW_HEIGHT,
               width: WINDOW_WIDTH,
@@ -286,7 +287,14 @@ const AddRow = ({ item, handlePress }) => {
   };
   return (
     <Pressable
-      style={[styles.addRow, getAdditionalStyle()]}
+      style={({ pressed }) => [
+        styles.addRow,
+        getAdditionalStyle(),
+        {
+          backgroundColor: pressed ? "rgb(210, 230, 255)" : "white",
+          opacity: pressed ? 1 : 0.9,
+        },
+      ]}
       onPress={handlePress}
     >
       <View style={styles.addIconContainer}>{getIcon()}</View>
@@ -342,7 +350,7 @@ const styles = StyleSheet.create({
   },
   addMenuContainer: {
     position: "absolute",
-    bottom: DIMENSIONS.TAB_BAR.HEIGHT + DIMENSIONS.ADD_MENU.BOTTOM_MARGIN - 100,
+    bottom: DIMENSIONS.TAB_BAR.HEIGHT + DIMENSIONS.ADD_MENU.BOTTOM_MARGIN - 100, // Corresponds with animation
     right: DIMENSIONS.ADD_MENU.RIGHT_MARGIN,
   },
   addShadow: {
