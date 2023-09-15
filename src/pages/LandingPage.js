@@ -33,8 +33,16 @@ import EditBukuModal from "./edit/EditBukuModal";
 
 import DataPage from "./data/DataPage";
 import ProfilePage from "./profile/ProfilePage";
+
+// NAVIGATION
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from "@react-navigation/native";
+
+// PLUGINS
+import { BlurView } from "@react-native-community/blur";
 
 const TAB_KEYS = {
   HOME: "Home",
@@ -51,11 +59,30 @@ const ADD_KEYS = {
   AKTIVITAS: "Aktivitas",
 };
 
+// STYLING
+const WINDOW_WIDTH = Dimensions.get("window").width;
+
+const DIMENSIONS = {
+  TAB_BAR: {
+    HEIGHT: WINDOW_WIDTH / 5,
+    WIDTH: WINDOW_WIDTH,
+  },
+  ADD_MENU: {
+    WIDTH: 150,
+    BOTTOM_MARGIN: 20,
+    RIGHT_MARGIN: WINDOW_WIDTH / 2 - 75,
+    ROW_HEIGHT: 50,
+    BORDER_RADIUS: 10,
+  },
+};
+
 const Tab = createBottomTabNavigator();
 
 export default LandingPage = () => {
   const [showAddMenu, setShowAddMenu] = useState(false);
+  const navigationRef = useNavigationContainerRef();
   const { HOME, MEDICAL, ADD, DATA, PROFILE } = TAB_KEYS;
+  const { BUKU, EMOSI, MAKAN, AKTIVITAS } = ADD_KEYS;
   const getAddIcon = () =>
     showAddMenu ? <AddFilledIcon /> : <AddOutlineIcon />;
   const getIcon = (name, focused) => {
@@ -102,26 +129,71 @@ export default LandingPage = () => {
         return;
     }
   };
+  const handleAddPress = (key) => {
+    navigationRef.navigate(key);
+    setShowAddMenu(false);
+  };
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused }) => {
             return getIcon(route.name, focused);
           },
           tabBarShowLabel: false,
+          tabBarStyle: { height: DIMENSIONS.TAB_BAR.HEIGHT },
         })}
       >
-        <Tab.Screen
-          name={HOME}
-          component={ViewPage}
-          options={{ headerShown: false }}
-        />
-        <Tab.Screen name={MEDICAL} component={MedicalPage} />
-        <Tab.Screen name={ADD} component={MedicalPage} />
-        <Tab.Screen name={DATA} component={DataPage} />
-        <Tab.Screen name={PROFILE} component={ProfilePage} />
+        <Tab.Group>
+          <Tab.Screen
+            name={HOME}
+            component={ViewPage}
+            options={{ headerShown: false }}
+          />
+          <Tab.Screen name={MEDICAL} component={MedicalPage} />
+          <Tab.Screen
+            name={ADD}
+            component={MedicalPage}
+            options={{
+              tabBarButton: (props) => (
+                <Pressable
+                  onPress={() => setShowAddMenu((s) => !s)}
+                  style={styles.addMenuTabBarContainer}
+                >
+                  {getAddIcon()}
+                </Pressable>
+              ),
+            }}
+          />
+          <Tab.Screen name={DATA} component={DataPage} />
+          <Tab.Screen name={PROFILE} component={ProfilePage} />
+        </Tab.Group>
+        <Tab.Group
+          screenOptions={{
+            presentation: "modal",
+            tabBarButton: (props) => <View />,
+            headerShown: false,
+          }}
+        >
+          <Tab.Screen name={BUKU} component={AddBukuSequence} />
+          <Tab.Screen name={EMOSI} component={AddEmosiPage} />
+          <Tab.Screen name={MAKAN} component={AddJurnalMakanPage} />
+          <Tab.Screen name={AKTIVITAS} component={AddJurnalAktivitasPage} />
+        </Tab.Group>
       </Tab.Navigator>
+      {showAddMenu && (
+        <>
+          <BlurView
+            style={styles.absolute}
+            blurType="light"
+            blurAmount={10}
+            reducedTransparencyFallbackColor="white"
+          />
+          <View style={styles.addMenuContainer}>
+            <AddMenu handleAddPress={handleAddPress} />
+          </View>
+        </>
+      )}
     </NavigationContainer>
   );
 };
@@ -175,23 +247,16 @@ const AddRow = ({ item, handlePress }) => {
   );
 };
 
-const WINDOW_WIDTH = Dimensions.get("window").width;
-
-const DIMENSIONS = {
-  TAB_BAR_HEIGHT: WINDOW_WIDTH / 5 + 20,
-  ADD_MENU: {
-    WIDTH: 150,
-    BOTTOM_MARGIN: 20,
-    RIGHT_MARGIN: WINDOW_WIDTH / 2 - 75,
-    ROW_HEIGHT: 50,
-    BORDER_RADIUS: 10,
-  },
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+  },
+  addMenuTabBarContainer: {
+    height: DIMENSIONS.TAB_BAR.HEIGHT,
+    width: DIMENSIONS.TAB_BAR.WIDTH / 5,
+    alignItems: "center",
+    paddingTop: 10,
   },
   addText: {
     fontWeight: "bold",
@@ -225,7 +290,7 @@ const styles = StyleSheet.create({
   },
   addMenuContainer: {
     position: "absolute",
-    bottom: DIMENSIONS.TAB_BAR_HEIGHT + DIMENSIONS.ADD_MENU.BOTTOM_MARGIN,
+    bottom: DIMENSIONS.TAB_BAR.HEIGHT + DIMENSIONS.ADD_MENU.BOTTOM_MARGIN,
     right: DIMENSIONS.ADD_MENU.RIGHT_MARGIN,
   },
   addShadow: {
