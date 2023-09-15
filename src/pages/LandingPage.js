@@ -203,7 +203,10 @@ export default LandingPage = () => {
               position: "absolute",
             }}
           >
-            <Pressable />
+            <Pressable
+              style={{ height: WINDOW_HEIGHT, width: WINDOW_WIDTH }}
+              onPress={() => setShowAddMenu(false)}
+            />
           </BlurView>
           <View style={styles.addMenuContainer}>
             <AddMenu handleAddPress={handleAddPress} />
