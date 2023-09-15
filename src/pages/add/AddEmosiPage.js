@@ -3,14 +3,14 @@ import EmosiList from "../../components/molecules/EmosiList";
 import ExitIcon from "../../components/atoms/graphics/ExitIcon";
 import { componentHorizontalMargins } from "../../styling/spacing";
 
-export default AddEmosiPage = () => {
+export default AddEmosiPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View>
         <EmosiList />
       </View>
       <Pressable
-        onPress={() => console.log("Pressed Exit")}
+        onPress={() => navigation.goBack()}
         style={styles.exitContainer}
       >
         <ExitIcon />

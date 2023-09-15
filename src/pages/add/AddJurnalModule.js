@@ -34,7 +34,7 @@ const TITLES = {
   CARD3: "Makan Malam",
 };
 
-const AddJurnalModule = () => {
+const AddJurnalModule = ({ navigation }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
@@ -81,7 +81,7 @@ const AddJurnalModule = () => {
       <ModalHeader
         title="Aktivitas"
         onPressHapusTags={() => setIsDeleting((prevState) => !prevState)} // TODO
-        onPressExit={() => console.log("pressed exit")} // TODO
+        onPressExit={() => navigation.goBack()} // TODO
         isDeleting={isDeleting}
       />
       <KeyboardAwareScrollView

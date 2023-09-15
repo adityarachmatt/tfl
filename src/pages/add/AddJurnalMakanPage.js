@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
 import AddJurnalModule from "./AddJurnalModule";
 
-export default AddJurnalMakanPage = () => {
+export default AddJurnalMakanPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <AddJurnalModule />
+      <AddJurnalModule navigation={navigation} />
     </View>
   );
 };

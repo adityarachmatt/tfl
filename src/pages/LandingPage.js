@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -44,10 +44,15 @@ import ProfilePage from "./profile/ProfilePage";
 
 // NAVIGATION
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import {
   NavigationContainer,
   useNavigationContainerRef,
 } from "@react-navigation/native";
+
+// STATE
+import { TabNavigatorPropsContext } from "../state/context/TabNavigatorPropsContext";
 
 // PLUGINS
 import { BlurView } from "expo-blur";
@@ -89,6 +94,7 @@ const DIMENSIONS = {
 };
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default LandingPage = () => {
   const [showAddMenu, setShowAddMenu] = useState(false);
@@ -147,52 +153,25 @@ export default LandingPage = () => {
   };
   return (
     <NavigationContainer ref={navigationRef}>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused }) => {
-            return getIcon(route.name, focused);
-          },
-          tabBarShowLabel: false,
-          tabBarStyle: { height: DIMENSIONS.TAB_BAR.HEIGHT },
-        })}
+      <TabNavigatorPropsContext.Provider
+        value={{ getIcon, getAddIcon, setShowAddMenu }}
       >
-        <Tab.Group>
-          <Tab.Screen
-            name={HOME}
-            component={ViewPage}
-            options={{ headerShown: false }}
-          />
-          <Tab.Screen name={MEDICAL} component={MedicalPage} />
-          <Tab.Screen
-            name={ADD}
-            component={MedicalPage}
-            options={{
-              tabBarButton: (props) => (
-                <Pressable
-                  onPress={() => setShowAddMenu((s) => !s)}
-                  style={styles.addMenuTabBarContainer}
-                >
-                  {getAddIcon()}
-                </Pressable>
-              ),
+        <Stack.Navigator initialRouteName="Tabs">
+          <Stack.Group
+            screenOptions={{
+              presentation: "modal",
+              StackBarButton: (props) => <View />,
+              headerShown: false,
             }}
-          />
-          <Tab.Screen name={DATA} component={DataPage} />
-          <Tab.Screen name={PROFILE} component={ProfilePage} />
-        </Tab.Group>
-        <Tab.Group
-          screenOptions={{
-            presentation: "modal",
-            tabBarButton: (props) => <View />,
-            headerShown: false,
-          }}
-        >
-          <Tab.Screen name={BUKU} component={AddBukuSequence} />
-          <Tab.Screen name={EMOSI} component={AddEmosiPage} />
-          <Tab.Screen name={MAKAN} component={AddJurnalMakanPage} />
-          <Tab.Screen name={AKTIVITAS} component={AddJurnalAktivitasPage} />
-        </Tab.Group>
-      </Tab.Navigator>
+          >
+            <Stack.Screen name={"Tabs"} component={TabNavigatorComponent} />
+            <Stack.Screen name={BUKU} component={AddBukuSequence} />
+            <Stack.Screen name={EMOSI} component={AddEmosiPage} />
+            <Stack.Screen name={MAKAN} component={AddJurnalMakanPage} />
+            <Stack.Screen name={AKTIVITAS} component={AddJurnalAktivitasPage} />
+          </Stack.Group>
+        </Stack.Navigator>
+      </TabNavigatorPropsContext.Provider>
       {showAddMenu && (
         <>
           <BlurView
@@ -214,6 +193,47 @@ export default LandingPage = () => {
         </>
       )}
     </NavigationContainer>
+  );
+};
+
+const TabNavigatorComponent = () => {
+  const { getIcon, getAddIcon, setShowAddMenu } = useContext(
+    TabNavigatorPropsContext
+  );
+  const { HOME, MEDICAL, ADD, DATA, PROFILE } = TAB_KEYS;
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused }) => {
+          return getIcon(route.name, focused);
+        },
+        tabBarShowLabel: false,
+        tabBarStyle: { height: DIMENSIONS.TAB_BAR.HEIGHT },
+      })}
+    >
+      <Tab.Screen
+        name={HOME}
+        component={ViewPage}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen name={MEDICAL} component={MedicalPage} />
+      <Tab.Screen
+        name={ADD}
+        component={MedicalPage}
+        options={{
+          tabBarButton: (props) => (
+            <Pressable
+              onPress={() => setShowAddMenu((s) => !s)}
+              style={styles.addMenuTabBarContainer}
+            >
+              {getAddIcon()}
+            </Pressable>
+          ),
+        }}
+      />
+      <Tab.Screen name={DATA} component={DataPage} />
+      <Tab.Screen name={PROFILE} component={ProfilePage} />
+    </Tab.Navigator>
   );
 };
 
