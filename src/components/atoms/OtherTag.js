@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
   },
   content: {
     fontSize: 13,
-    fontFamily: "Inter-Medium",
     color: colors.primary.default,
   },
   categoryPicker: {

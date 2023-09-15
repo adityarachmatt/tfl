@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
-    fontFamily: "Inter-Bold",
     fontSize: 20,
     color: primaryDark,
+    fontWeight: "bold",
   },
 });
 

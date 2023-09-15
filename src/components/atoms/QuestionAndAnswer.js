@@ -35,12 +35,11 @@ const styles = StyleSheet.create({
     color: grayscale1,
     fontSize: 20,
     marginBottom: 20,
-    fontFamily: "Inter-Bold",
+    fontWeight: "bold",
   },
   answer: {
     color: grayscale2,
     fontSize: 16,
-    fontFamily: "Inter-Light",
   },
 });
 

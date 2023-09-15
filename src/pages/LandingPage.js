@@ -1,8 +1,19 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 
+// TAB ICONS
+import AddFilledIcon from "../components/atoms/graphics/bottomTabBar/AddFilledIcon";
+import AddOutlineIcon from "../components/atoms/graphics/bottomTabBar/AddOutlineIcon";
+import DataFilledIcon from "../components/atoms/graphics/bottomTabBar/DataFilledIcon";
+import DataOutlineIcon from "../components/atoms/graphics/bottomTabBar/DataOutlineIcon";
+import HomeFilledIcon from "../components/atoms/graphics/bottomTabBar/HomeFilledIcon";
+import HomeOutlineIcon from "../components/atoms/graphics/bottomTabBar/HomeOutlineIcon";
+import MedicalFilledIcon from "../components/atoms/graphics/bottomTabBar/MedicalFilledIcon";
+import MedicalOutlineIcon from "../components/atoms/graphics/bottomTabBar/MedicalOutlineIcon";
+import ProfileFilledIcon from "../components/atoms/graphics/bottomTabBar/ProfileFilledIcon";
+import ProfileOutlineIcon from "../components/atoms/graphics/bottomTabBar/ProfileOutlineIcon";
+
 // ADD
-import BottomTabBar from "../components/molecules/BottomTabBar";
 import Buku from "../components/atoms/graphics/addMenu/Buku";
 import Emosi from "../components/atoms/graphics/addMenu/Emosi";
 import Makan from "../components/atoms/graphics/addMenu/Makan";
@@ -22,6 +33,8 @@ import EditBukuModal from "./edit/EditBukuModal";
 
 import DataPage from "./data/DataPage";
 import ProfilePage from "./profile/ProfilePage";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
 
 const TAB_KEYS = {
   HOME: "Home",
@@ -31,93 +44,90 @@ const TAB_KEYS = {
   PROFILE: "Profile",
 };
 
-const ADD_OPTIONS = {
+const ADD_KEYS = {
   BUKU: "Buku",
   EMOSI: "Emosi",
   MAKAN: "Makan",
   AKTIVITAS: "Aktivitas",
 };
 
+const Tab = createBottomTabNavigator();
+
 export default LandingPage = () => {
-  // TAB BAR
-  const [selectedPage, setSelectedPage] = useState(TAB_KEYS.HOME);
-  const [addSelected, setAddSelected] = useState(false);
-  const handleTabPress = (key) => {
-    switch (key) {
-      case TAB_KEYS.HOME:
-        setSelectedPage(TAB_KEYS.HOME);
-        return;
-      case TAB_KEYS.MEDICAL:
-        setSelectedPage(TAB_KEYS.MEDICAL);
-        return;
-      case TAB_KEYS.DATA:
-        setSelectedPage(TAB_KEYS.DATA);
-        return;
-      case TAB_KEYS.PROFILE:
-        setSelectedPage(TAB_KEYS.PROFILE);
-        return;
-      case TAB_KEYS.ADD:
-        setAddSelected((a) => !a);
-        return;
+  const [showAddMenu, setShowAddMenu] = useState(false);
+  const { HOME, MEDICAL, ADD, DATA, PROFILE } = TAB_KEYS;
+  const getAddIcon = () =>
+    showAddMenu ? <AddFilledIcon /> : <AddOutlineIcon />;
+  const getIcon = (name, focused) => {
+    if (focused) {
+      switch (name) {
+        case HOME:
+          return <HomeFilledIcon />;
+        case MEDICAL:
+          return <MedicalFilledIcon />;
+        case ADD:
+          return getAddIcon();
+        case DATA:
+          return <DataFilledIcon />;
+        case PROFILE:
+          return <ProfileFilledIcon />;
+        default:
+          console.log("not working");
+          // console.log(
+          //   `[e]LandingPage/getIcon/Focused | \tname:${JSON.stringify(
+          //     name
+          //   )} | \t${JSON.stringify(focused)}`
+          // );
+          return;
+      }
+    }
+    switch (name) {
+      case HOME:
+        return <HomeOutlineIcon />;
+      case MEDICAL:
+        return <MedicalOutlineIcon />;
+      case ADD:
+        return getAddIcon();
+      case DATA:
+        return <DataOutlineIcon />;
+      case PROFILE:
+        return <ProfileOutlineIcon />;
       default:
-        console.log("[e] pages/LandingPage>handleTabPress: invalid tab_key");
+        console.log("not working");
+        // console.log(
+        //   `[e]LandingPage/getIcon/Blur | \tname:${JSON.stringify(
+        //     name
+        //   )} | \t${JSON.stringify(focused)}`
+        // );
         return;
     }
-  };
-  const handleAddPress = (key) => {
-    switch (key) {
-      case ADD_OPTIONS.BUKU:
-        setSelectedPage(ADD_OPTIONS.BUKU);
-        return;
-      case ADD_OPTIONS.EMOSI:
-        setSelectedPage(ADD_OPTIONS.EMOSI);
-        return;
-      case ADD_OPTIONS.MAKAN:
-        setSelectedPage(ADD_OPTIONS.MAKAN);
-        return;
-      case ADD_OPTIONS.AKTIVITAS:
-        setSelectedPage(ADD_OPTIONS.AKTIVITAS);
-        return;
-      default:
-        console.log("[e]LandingPage>handleAddPress");
-        return;
-    }
-  };
-  const getPage = () => {
-    return (
-      <>
-        {selectedPage === TAB_KEYS.HOME && <ViewPage />}
-        {selectedPage === TAB_KEYS.MEDICAL && <MedicalPage />}
-        {selectedPage === TAB_KEYS.DATA && <DataPage />}
-        {selectedPage === TAB_KEYS.PROFILE && <ProfilePage />}
-        {selectedPage === ADD_OPTIONS.BUKU && <AddBukuSequence />}
-        {selectedPage === ADD_OPTIONS.EMOSI && <AddEmosiPage />}
-        {selectedPage === ADD_OPTIONS.MAKAN && <AddJurnalMakanPage />}
-        {selectedPage === ADD_OPTIONS.AKTIVITAS && <AddJurnalAktivitasPage />}
-      </>
-    );
   };
   return (
-    <View style={styles.container}>
-      {getPage()}
-      {addSelected && (
-        <View style={styles.addMenuContainer}>
-          <AddMenu handleAddPress={handleAddPress} />
-        </View>
-      )}
-      <View style={styles.tabBarContainer}>
-        <BottomTabBar
-          selectedPage={selectedPage}
-          handleTabPress={handleTabPress}
-          addSelected={addSelected}
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused }) => {
+            return getIcon(route.name, focused);
+          },
+          tabBarShowLabel: false,
+        })}
+      >
+        <Tab.Screen
+          name={HOME}
+          component={ViewPage}
+          options={{ headerShown: false }}
         />
-      </View>
-    </View>
+        <Tab.Screen name={MEDICAL} component={MedicalPage} />
+        <Tab.Screen name={ADD} component={MedicalPage} />
+        <Tab.Screen name={DATA} component={DataPage} />
+        <Tab.Screen name={PROFILE} component={ProfilePage} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 };
 
 const AddMenu = ({ handleAddPress }) => {
-  const { BUKU, EMOSI, MAKAN, AKTIVITAS } = ADD_OPTIONS;
+  const { BUKU, EMOSI, MAKAN, AKTIVITAS } = ADD_KEYS;
   return (
     <View style={styles.addMenu}>
       <AddRow item={BUKU} handlePress={() => handleAddPress(BUKU)} />
@@ -131,13 +141,13 @@ const AddMenu = ({ handleAddPress }) => {
 const AddRow = ({ item, handlePress }) => {
   const getIcon = () => {
     switch (item) {
-      case ADD_OPTIONS.BUKU:
+      case ADD_KEYS.BUKU:
         return <Buku />;
-      case ADD_OPTIONS.EMOSI:
+      case ADD_KEYS.EMOSI:
         return <Emosi />;
-      case ADD_OPTIONS.MAKAN:
+      case ADD_KEYS.MAKAN:
         return <Makan />;
-      case ADD_OPTIONS.AKTIVITAS:
+      case ADD_KEYS.AKTIVITAS:
         return <Aktivitas />;
       default:
         console.log("[e]LandingPage>AddRow>GetIcon");
@@ -146,9 +156,9 @@ const AddRow = ({ item, handlePress }) => {
   };
   const getAdditionalStyle = () => {
     switch (item) {
-      case ADD_OPTIONS.BUKU:
+      case ADD_KEYS.BUKU:
         return styles.addTopRow;
-      case ADD_OPTIONS.AKTIVITAS:
+      case ADD_KEYS.AKTIVITAS:
         return styles.addBottomRow;
       default:
         return {};

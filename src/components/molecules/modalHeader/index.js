@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: "bold",
-    fontFamily: "Inter-Bold",
     height: 55,
   },
 });

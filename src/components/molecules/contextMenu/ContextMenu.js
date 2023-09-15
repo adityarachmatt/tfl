@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
-    fontFamily: "Inter-Medium",
     color: colors.primary.dark,
   },
 });

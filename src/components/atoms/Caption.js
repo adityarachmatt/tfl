@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
   text: {
     color: successDark,
     fontSize: 16,
-    fontFamily: "Inter-Medium",
   },
 });
 

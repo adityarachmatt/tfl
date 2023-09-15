@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
   },
   content: {
     fontSize: FONT_SIZE,
-    fontFamily: "Inter-Medium",
     color: colors.primary.dark,
   },
 });

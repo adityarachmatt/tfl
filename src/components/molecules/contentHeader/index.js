@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 18,
     color: primaryDark,
-    fontFamily: "Inter-Medium",
   },
   shadow: {
     shadowColor: "#000",
